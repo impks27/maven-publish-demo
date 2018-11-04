@@ -1,0 +1,32 @@
+// declaration of plugins (1)
+['java', 'maven-publish'].each {
+    apply plugin : it
+}
+group = 'com.yourdomain'
+version = '1.0'
+repositories {
+    mavenCentral ()
+}
+dependencies {
+    compile 'org.apache.commons:commons-lang3:3.1'
+    testCompile 'junit:junit:4.11'
+}
+publishing {
+    publications {
+        myPublication(MavenPublication) {
+            // telling gradle to publish project's jar archive (2)
+            from components.java
+            // telling gradle to publish README file (2)
+            artifact ('README.txt') {
+                classifier = 'README'
+                extension  = 'txt'
+            }
+        }
+    }
+    // telling gradle to publish artifact to local directory (3)
+    repositories {
+        maven {
+            url "file:/${project.projectDir}/artifacts"
+        }
+    }
+}

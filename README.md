@@ -1,1 +1,3 @@
-"# maven-publish-demo" 
+"# maven-publish-demo"
+
+Run: gradle publish
