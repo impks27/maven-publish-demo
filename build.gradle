@@ -11,15 +11,36 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.1'
     testCompile 'junit:junit:4.11'
 }
+
+task sourceJar (type : Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar (type: Jar, dependsOn: javadoc) { // (1)
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
 publishing {
     publications {
         myPublication(MavenPublication) {
             // telling gradle to publish project's jar archive (2)
             from components.java
+
             // telling gradle to publish README file (2)
-            artifact ('README.txt') {
+            /*artifact ('README.txt') {
                 classifier = 'README'
                 extension  = 'txt'
+            }*/
+
+            // tell gradle to publish sources as jar
+            /*artifact (sourceJar) { // (2)
+                classifier = 'sources'
+            }*/
+
+            artifact (javadocJar) { // (3)
+                classifier = 'javadoc'
             }
         }
     }
